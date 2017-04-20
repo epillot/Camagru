@@ -1,18 +1,27 @@
 <?php
 
 session_start();
-require('config/setup.php');
-if ($_GET['page'] == 'log')
+require('modele/Data.Class.php');
+$GlobalData = new Data;
+
+if (isset($_SESSION['loggued_on_user']) && $_SESSION['loggued_on_user'] !== "")
 {
-  require('login.php');
-}
-else if ($_GET['page'] == 'create')
-{
-  require('create.php');
+	require('salut.php');
 }
 else
 {
-  require('accueil.php');
+	if ($_GET['page'] == 'log')
+	{
+		require('login.php');
+	}
+	else if ($_GET['page'] == 'create')
+	{
+		require('create.php');
+	}
+	else
+	{
+		require('accueil.php');
+	}
 }
 
 ?>
