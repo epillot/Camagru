@@ -1,7 +1,10 @@
 <body>
 	<?php require('header.php') ?>
-	<p>Salut <?= $_SESSION['loggued_on_user'] ?></p>
-	<video></video>
+	<div class="page">
+		<?php require('vue/sidebar.php') ?>
+		<p>Salut <?= $_SESSION['loggued_on_user'] ?></p>
+		<video></video>
+	</div>
 	<script>
 		navigator.getMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
 		navigator.getMedia({ video: true, audio: false }, function(stream) {
