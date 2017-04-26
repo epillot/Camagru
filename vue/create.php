@@ -1,7 +1,7 @@
 <body>
   <?php require('header.php') ?>
   <div class="page">
-    <?php require('sidebar.php') ?>
+    <?php //require('sidebar.php') ?>
     <div id="create">
       <form method="post" action="index.php?page=create" onsubmit="return verifPw();">
         <p>Pseudo</p>
@@ -13,6 +13,7 @@
         <p>Adresse email</p>
         <input type="email" name="mail" maxlength="320" required="required" size="30"/>
         <p><input type="submit" name="submit" value="OK"/></p>
+        <?= $err ?>
 	    </form>
     </div>
   </div>

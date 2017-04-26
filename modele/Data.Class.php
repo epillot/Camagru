@@ -18,7 +18,7 @@ Class Data {
 		}
 	}
 
-	private function _userExists($ps) {
+	public function userExists($ps) {
 		$ret = false;
 		$req = $this->db->prepare('SELECT login FROM user WHERE login = ?');
 		$req->execute(array($ps));
@@ -39,8 +39,6 @@ Class Data {
 	}
 
 	public function insertUser($ps, $pw, $mail, $date) {
-		if ($this->_userExists($ps))
-			return self::USER_EXISTS;
 		if ($this->_emailExists($mail))
 			return self::EMAIL_EXISTS;
 		$req = $this->db->prepare('INSERT INTO user(login, passwd, email, date_de_creation) VALUES(:login, :pw, :email, :date)');

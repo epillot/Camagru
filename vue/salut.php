@@ -1,7 +1,7 @@
 <body>
 	<?php require('header.php') ?>
 	<div class="page">
-		<?php require('vue/sidebar.php') ?>
+		<?php //require('vue/sidebar.php') ?>
 		<p>Salut <?= $_SESSION['loggued_on_user'] ?></p>
 		<video></video>
 	</div>

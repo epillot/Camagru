@@ -16,26 +16,22 @@ body{
   width: 100%;
   height: 8%;
   min-height: 70px;
-  background-color: #2E9AFE;
+  background-image: url(../img/header.jpg);
   align-items: center;
-  justify-content: center;
-}
-
-#header:nth-child(1){
-  align-self: baseline;
+  justify-content: space-between;
+  text-align: center;
+  position: fixed;
 }
 
 #title {
-
 }
 
 #logout {
-  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 100%;
   width: 8%;
-  position: absolute;
-  right: 0;
-  top: 0;
 }
 
 #logout img {
@@ -50,33 +46,49 @@ body{
 }
 
 #home {
-
+  display: flex;
+  align-items: center;
   height: 100%;
   width: 8%;
 }
 
 #home img{
-  height: 100%;
-  width: 100%;
+  height: 50%;
+  width: 50%;
   min-width: 70px;
 }
 
 .page{
+  padding: 8px;
   display: flex;
-  height: 92%;
+  justify-content: space-around;
+  align-items: center;
+  height: 100%;
+}
+
+#login {
+}
+
+#presentation {
+  width: 25%;
+  height: 50%;
+  text-align: center;
+  line-height: 1.5em;
 }
 
 #accueil{
-  padding: 8px;
+  width: 25%;
+  height: 50%;
+  text-align: center;
 }
 
 #accueil p{
   margin: 0;
 }
 
-#sidebar{
+/*#sidebar{
   width: 8%;
   min-width: 70px;
   height: 100%;
   background-color: #086A87;
-}
+}*/

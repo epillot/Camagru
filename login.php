@@ -4,7 +4,7 @@ if ($_POST['submit'] == 'OK')
 {
 	$ps = $_POST['pseudo'];
 	$pw = hash('whirlpool', $_POST['pw']);
-	$ret = $GlobalData->auth($ps, $pw);
+	$ret = $Data->auth($ps, $pw);
 	if ($ret === false)
 		header('Location: info.php?page=wauth');
 	else
