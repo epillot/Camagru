@@ -3,9 +3,6 @@
 Class Data {
 
 	public $db;
-	CONST SUCCESS_USER_INSERT = 0;
-	CONST USER_EXISTS = 1;
-	CONST EMAIL_EXISTS = 2;
 
 	public function __construct() {
 		require('config/database.php');
@@ -28,7 +25,7 @@ Class Data {
 		return $ret;
 	}
 
-	private function _emailExists($mail) {
+	public function emailExists($mail) {
 		$ret = false;
 		$req = $this->db->prepare('SELECT email FROM user WHERE email = ?');
 		$req->execute(array($mail));
@@ -38,12 +35,17 @@ Class Data {
 		return $ret;
 	}
 
+	public function getUserInfo($ps) {
+		$req = $this->db->prepare('SELECT email, date_de_creation FROM user WHERE login = ?');
+		$req->execute(array($ps));
+		$info = $req->fetch();
+		$req->closeCursor();
+		return ($info);
+	}
+
 	public function insertUser($ps, $pw, $mail, $date) {
-		if ($this->_emailExists($mail))
-			return self::EMAIL_EXISTS;
 		$req = $this->db->prepare('INSERT INTO user(login, passwd, email, date_de_creation) VALUES(:login, :pw, :email, :date)');
 		$req->execute(array('login' => $ps, 'pw' => $pw, 'email' => $mail, 'date' => $date));
-		return self::SUCCESS_USER_INSERT;
 	}
 
 	public function auth($ps, $pw) {
@@ -52,6 +54,16 @@ Class Data {
 		$ret = $req->fetch();
 		$req->closeCursor();
 		return $ret;
+	}
+
+	public function updatePs($ps, $newps) {
+		$req = $this->db->prepare('UPDATE user SET login = ? WHERE login = ?');
+		$req->execute(array($newps, $ps));
+	}
+
+	public function updatePw($ps, $newpw) {
+		$req = $this->db->prepare('UPDATE user SET passwd = ? WHERE login = ?');
+		$req->execute(array($newpw, $ps));
 	}
 
 }

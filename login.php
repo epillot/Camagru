@@ -4,9 +4,8 @@ if ($_POST['submit'] == 'OK')
 {
 	$ps = $_POST['pseudo'];
 	$pw = hash('whirlpool', $_POST['pw']);
-	$ret = $Data->auth($ps, $pw);
-	if ($ret === false)
-		header('Location: info.php?page=wauth');
+	if ($Data->auth($ps, $pw) === false)
+		$err = "<p id='err'>Pseudo ou mot de passe incorrect.</p>";
 	else
 	{
 		$_SESSION['loggued_on_user'] = $ps;

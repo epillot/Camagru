@@ -6,7 +6,14 @@ $Data = new Data;
 
 if (isset($_SESSION['loggued_on_user']) && $_SESSION['loggued_on_user'] !== "")
 {
-	require('salut.php');
+	if ($_GET['page'] == 'account')
+	{
+		require('account.php');
+	}
+	else
+	{
+		require('salut.php');
+	}
 }
 else
 {

@@ -3,7 +3,7 @@
   <div class="page">
     <?php //require('sidebar.php') ?>
     <div id="create">
-      <form method="post" action="index.php?page=create" onsubmit="return verifPw();">
+      <form method="post" action="index.php?page=create">
         <p>Pseudo</p>
         <input type="text" name="pseudo" minlength="3" maxlength="20" required="required"/>
         <p>Mot de passe</p>
@@ -13,10 +13,9 @@
         <p>Adresse email</p>
         <input type="email" name="mail" maxlength="320" required="required" size="30"/>
         <p><input type="submit" name="submit" value="OK"/></p>
-        <?= $err ?>
+        <?php if (isset($err)) {echo $err;} ?>
 	    </form>
     </div>
   </div>
-  <script type="text/javascript" src="js/verifPw.js"></script>
 </body>
 </html>

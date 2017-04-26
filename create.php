@@ -5,23 +5,24 @@ if ($_POST['submit'] == 'OK')
 	date_default_timezone_set('Europe/Paris');
 	$ps = $_POST['pseudo'];
 	$pw = $_POST['pw'];
+	$pw2 = $_POST['repw'];
 	$mail = $_POST['mail'];
 	$date = date('Y-m-d H:i:s');
-	if (strlen($ps) < 3 || strlen($ps) > 20)
-		$err = "Le pseudo doit contenir entre 3 et 20 caractères";
+	if ($pw !== $pw2)
+		$err = "<p id='err'>Les deux mots de passe saisis ne sont pas identiques.</p>";
+	else if (strlen($ps) < 3 || strlen($ps) > 20)
+		$err = "<p id='err'>Le pseudo doit contenir entre 3 et 20 caractères.</p>";
 	else if (strlen($pw) < 6 || strlen($pw) > 30)
-		$err = "<p>Le mot de passe doit contenir entre 6 et 20 caractères</p>";
+		$err = "<p id='err'>Le mot de passe doit contenir entre 6 et 20 caractères.</p>";
 	else if ($Data->userExists($ps))
-		$err = "<p>Le login que vous avez choisi n'est pas disponible</p>";
-	else {
+		$err = "<p id='err'>Le login que vous avez choisi n'est pas disponible.</p>";
+	else if ($Data->emailExists($mail))
+		$err = "<p id='err'>Votre adresse email à déjà été utilisée.</p>";
+	else
+	{
 		$pw = hash('whirlpool', $_POST['pw']);
-		$ret = $Data->insertUser($ps, $pw, $mail, $date);
-		if ($ret === Data::SUCCESS_USER_INSERT)
-			header('Location: info.php?page=success');
-		else if ($ret === Data::USER_EXISTS)
-			header('Location: info.php?page=usexists');
-		else if ($ret === Data::EMAIL_EXISTS)
-			header('Location: info.php?page=emexists');
+		$Data->insertUser($ps, $pw, $mail, $date);
+		header('Location: info.php');
 	}
 }
 
