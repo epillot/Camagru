@@ -3,7 +3,7 @@
 	<div class="page">
 		<?php //require('sidebar.php') ?>
 		<div id="presentation">
-			<p>Bienvenu sur Camagru,
+			<p>Bienvenue sur Camagru,
 			<br />
 			application pour creation, publication et consultation de photo-montage en ligne.</p>
 			<p></p>

@@ -8,8 +8,14 @@ if ($_POST['submit'] == 'OK')
 		$err = "<p id='err'>Pseudo ou mot de passe incorrect.</p>";
 	else
 	{
-		$_SESSION['loggued_on_user'] = $ps;
-		header('Location: index.php');
+		$info = $Data->getUserInfo($ps);
+		if ($info['activated'] == 1)
+		{
+			$_SESSION['loggued_on_user'] = $ps;
+			header('Location: index.php');
+		}
+		else
+			header('Location: info.php?page=notactive');
 	}
 }
 

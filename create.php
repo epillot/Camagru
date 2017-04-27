@@ -17,12 +17,15 @@ if ($_POST['submit'] == 'OK')
 	else if ($Data->userExists($ps))
 		$err = "<p id='err'>Le login que vous avez choisi n'est pas disponible.</p>";
 	else if ($Data->emailExists($mail))
-		$err = "<p id='err'>Votre adresse email à déjà été utilisée.</p>";
+		$err = "<p id='err'>Cette adresse email à déjà été utilisée.</p>";
 	else
 	{
+		$key = md5(rand());
 		$pw = hash('whirlpool', $_POST['pw']);
-		$Data->insertUser($ps, $pw, $mail, $date);
-		header('Location: info.php');
+		$Data->insertUser($ps, $pw, $mail, $date, $key);
+		require('modele/sendEmail.php');
+		sendEmail($ps, $mail, $key);
+		header('Location: info.php?page=created');
 	}
 }
 

@@ -37,6 +37,23 @@ else if ($_POST['modifpw'] == "Ok")
     $ret = "<p>Votre mot de passe à été modifié avec succès</p>";
   }
 }
+else if ($_POST['modifmail'] == "Ok")
+{
+    $pw = $_POST['pw'];
+    $mail = $_POST['mail'];
+    if ($Data->auth($ps, hash('whirlpool', $pw)) === false)
+      $ret = "<p id='err'>Mot de passe incorrect.</p>";
+    else if (strlen($mail) > 320)
+      $ret = "<p id='err'>Une adresse email valide est composée au maximum de 320 caractères.</p>";
+    else if ($Data->emailExists($mail))
+      $ret = "<p id='err'>Cette adresse email à déjà été utilisée.</p>";
+    else
+    {
+      $Data->updateMail($ps, $mail);
+      $ret = "<p>Votre adresse email à été modifié avec succès</p>";
+    }
+
+}
 
 require('vue/head.php');
 require('vue/account.php');

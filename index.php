@@ -25,6 +25,10 @@ else
 	{
 		require('create.php');
 	}
+	else if ($_GET['page'] == 'act')
+	{
+		require('activation.php');
+	}
 	else
 	{
 		require('accueil.php');

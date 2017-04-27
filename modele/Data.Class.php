@@ -36,16 +36,21 @@ Class Data {
 	}
 
 	public function getUserInfo($ps) {
-		$req = $this->db->prepare('SELECT email, date_de_creation FROM user WHERE login = ?');
+		$req = $this->db->prepare('SELECT email, date_de_creation, activation_key, activated FROM user WHERE login = ?');
 		$req->execute(array($ps));
 		$info = $req->fetch();
 		$req->closeCursor();
 		return ($info);
 	}
 
-	public function insertUser($ps, $pw, $mail, $date) {
-		$req = $this->db->prepare('INSERT INTO user(login, passwd, email, date_de_creation) VALUES(:login, :pw, :email, :date)');
-		$req->execute(array('login' => $ps, 'pw' => $pw, 'email' => $mail, 'date' => $date));
+	public function insertUser($ps, $pw, $mail, $date, $key) {
+		$req = $this->db->prepare('INSERT INTO user(login, passwd, email, date_de_creation, activation_key) VALUES(:login, :pw, :email, :date, :key)');
+		$req->execute(array('login' => $ps, 'pw' => $pw, 'email' => $mail, 'date' => $date, 'key' => $key));
+	}
+
+	public function activeUser($ps) {
+		$req = $this->db->prepare('UPDATE user SET activated = 1 WHERE login = ?');
+		$req->execute(array($ps));
 	}
 
 	public function auth($ps, $pw) {
@@ -64,6 +69,11 @@ Class Data {
 	public function updatePw($ps, $newpw) {
 		$req = $this->db->prepare('UPDATE user SET passwd = ? WHERE login = ?');
 		$req->execute(array($newpw, $ps));
+	}
+
+	public function updateMail($ps, $mail) {
+		$req = $this->db->prepare('UPDATE user SET email = ? WHERE login = ?');
+		$req->execute(array($mail, $ps));
 	}
 
 }

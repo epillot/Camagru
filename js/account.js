@@ -86,13 +86,15 @@ function modifMail() {
  cleanPage();
  var form = document.createElement("form");
  form.method = "post";
- form.onsubmit = 'return false';
+ form.action = '.?page=account';
  var newmail = document.createElement("p");
  newmail.innerText = "Nouvelle adresse email";
  form.appendChild(newmail);
  var input1 = document.createElement('input');
  input1.type = "email";
+ input1.name = "mail";
  input1.required = "required";
+ input1.maxLength = '320';
  form.appendChild(input1);
  var pw = document.createElement("p");
  pw.innerText = "Mot de passe";
@@ -100,10 +102,14 @@ function modifMail() {
  var input2 = document.createElement('input');
  input2.type = "password";
  input2.required = "required";
+ input2.name = "pw";
+ input2.minLength = '6';
+ input2.maxLength = '30';
  form.appendChild(input2);
  var sub = document.createElement("input");
  sub.type = "submit";
  sub.value = "Ok";
+ sub.name = "modifmail";
  form.appendChild(sub);
  page.appendChild(form);
 }
