@@ -1,21 +1,15 @@
 <body>
 	<?php require('header.php') ?>
 	<div class="page">
-		<?php //require('vue/sidebar.php') ?>
-		<p>Salut <?= $_SESSION['loggued_on_user'] ?></p>
-		<video></video>
+		<div class="container">
+			<video id="video" width="500" height="400" autoplay></video>
+			<button onclick="takePhoto();">Prendre une photo</button>
+		</div>
+		<div class="container">
+			<canvas id="canvas" width="640" height="480"></canvas>
+			<button id="register">Enregistrer</button>
+		</div>
 	</div>
-	<script>
-		navigator.getMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
-		navigator.getMedia({ video: true, audio: false }, function(stream) {
-			var video = document.querySelector('video');
-			video.src = window.URL.createObjectURL(stream);
-			video.onloadedmetadata = function() {
-				video.play();
-			};
-		}, function(e) {
-			alert("Une erreur est survenue : ", e);
-		});
-	</script>
+	<script type="text/javascript" src="js/video.js"></script>
 </body>
 </html>
