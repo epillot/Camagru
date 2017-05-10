@@ -27,8 +27,14 @@ $q = "CREATE TABLE IF NOT EXISTS user(
 	email VARCHAR(320) NOT NULL,
 	date_de_creation DATETIME NOT NULL,
 	activation_key VARCHAR(32) NOT NULL,
-	activated SMALLINT DEFAULT 0);";
+	activated SMALLINT DEFAULT 0,
+	nb_photo INT NOT NULL DEFAULT 0);";
+$db->exec($q);
 
+$q = "CREATE TABLE IF NOT EXISTS photo(
+	id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	id_user INT NOT NULL,
+	date_ajout DATETIME NOT NULL);";
 $db->exec($q);
 
 ?>

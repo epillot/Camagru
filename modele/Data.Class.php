@@ -36,7 +36,7 @@ Class Data {
 	}
 
 	public function getUserInfo($ps) {
-		$req = $this->db->prepare('SELECT email, date_de_creation, activation_key, activated FROM user WHERE login = ?');
+		$req = $this->db->prepare('SELECT id, email, date_de_creation, activation_key, activated, nb_photo FROM user WHERE login = ?');
 		$req->execute(array($ps));
 		$info = $req->fetch();
 		$req->closeCursor();
@@ -74,6 +74,14 @@ Class Data {
 	public function updateMail($ps, $mail) {
 		$req = $this->db->prepare('UPDATE user SET email = ? WHERE login = ?');
 		$req->execute(array($mail, $ps));
+	}
+
+	public function addPhoto($id_user, $date) {
+		$req = $this->db->prepare('INSERT INTO photo(id_user, date_ajout) VALUES(?, ?)');
+		$req->execute(array($id_user, $date));
+
+		$req = $this->db->prepare('UPDATE user SET nb_photo = nb_photo + 1 WHERE id = ?');
+		$req->execute(array($id_user));
 	}
 
 }

@@ -7,7 +7,7 @@
 		</div>
 		<div class="container">
 			<canvas id="canvas" width="640" height="480"></canvas>
-			<button id="register">Enregistrer</button>
+			<button id="register" onclick="savePhoto();">Enregistrer</button>
 		</div>
 	</div>
 	<script type="text/javascript" src="js/video.js"></script>

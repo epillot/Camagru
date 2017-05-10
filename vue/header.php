@@ -5,7 +5,7 @@
 		<h1>Camagru</h1>
 	<div id="user_setting">
 		<?php
-			if (isset($_SESSION['loggued_on_user']) && $_SESSION['loggued_on_user'] != "")
+			if (isset($_SESSION['loggued_on_user']) && $_SESSION['loggued_on_user'] !== "" && $Data->userExists($_SESSION['loggued_on_user']))
 			{
 				echo "<div id='compte'>";
 				echo "<a href='index.php?page=account'><img src='img/compte.png' title='Mon compte' alt='Mon compte'></img></a>";

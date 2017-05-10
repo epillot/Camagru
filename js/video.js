@@ -33,3 +33,28 @@ function takePhoto() {
   canvas.getContext('2d').drawImage(video, 0, 0, width, height);
   save_button.style.visibility = "visible";
 }
+
+function savePhoto() {
+  var url = encodeURIComponent(canvas.toDataURL().split(',')[1]);
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState == 4 && xhr.status == 200)
+    {
+
+    }
+  };
+  xhr.open('POST', '.', true);
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xhr.send('photo=' + url);
+  //console.log(url);
+  // var form = document.createElement('form');
+  // form.method = 'post';
+  // form.action = '.';
+  // var input = document.createElement('input');
+  // input.type = 'hidden';
+  // input.name = 'photo';
+  // input.value = url;
+  // form.appendChild(input);
+  // document.body.appendChild(form);
+  // form.submit();
+}
