@@ -25,11 +25,10 @@ if ($_POST['submit'] == 'OK')
 		$Data->insertUser($ps, $pw, $mail, $date, $key);
 		require('modele/sendEmail.php');
 		sendEmail($ps, $mail, $key);
-		header('Location: info.php?page=created');
+		header('Location: index.php?p=info&i=created');
 	}
 }
 
-require('vue/head.php');
-require('vue/create.php');
+require('page/create.php');
 
 ?>

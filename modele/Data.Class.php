@@ -84,6 +84,15 @@ Class Data {
 		$req->execute(array($id_user));
 	}
 
+	// public function getPreviewPhoto($id_user) {
+	// 	$req = $this->db->prepare('SELECT id FROM photo WHERE id_user = ? ORDER BY date_ajout LIMIT 4');
+	// 	$req->execute(array($id_user));
+	// 	$ret = array();
+	// 	while ($photo = $req->fetch())
+	// 		$ret[] = $photo;
+	// 	return $ret;
+	// }
+
 }
 
 ?>

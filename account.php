@@ -55,7 +55,6 @@ else if ($_POST['modifmail'] == "Ok")
 
 }
 
-require('vue/head.php');
-require('vue/account.php');
+require('page/account.php');
 
 ?>

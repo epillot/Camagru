@@ -3,36 +3,25 @@
 session_start();
 require('modele/Data.Class.php');
 $Data = new Data;
-
-if (isset($_SESSION['loggued_on_user']) && $_SESSION['loggued_on_user'] !== "" && $Data->userExists($_SESSION['loggued_on_user']))
+ob_start();
+if (isset($_SESSION['loggued_on_user']) && $Data->userExists($_SESSION['loggued_on_user']))
 {
-	if ($_GET['page'] == 'account')
-	{
-		require('account.php');
-	}
-	else
-	{
-		require('salut.php');
-	}
+	if (!isset($_GET['p']))
+		$_GET['p'] = 'montage';
+	if (!file_exists($_GET['p'] . '.php'))
+		$_GET['p'] = 'page/404';
+	require($_GET['p'] . '.php');
 }
 else
 {
-	if ($_GET['page'] == 'log')
-	{
-		require('login.php');
-	}
-	else if ($_GET['page'] == 'create')
-	{
-		require('create.php');
-	}
-	else if ($_GET['page'] == 'act')
-	{
-		require('activation.php');
-	}
-	else
-	{
-		require('accueil.php');
-	}
+	if (!isset($_GET['p']))
+		$_GET['p'] = 'accueil';
+	if (!file_exists($_GET['p'] . '.php'))
+		$_GET['p'] = 'page/404';
+	require($_GET['p'] . '.php');
 }
+$page = ob_get_contents();
+ob_end_clean();
+require('template.php');
 
 ?>

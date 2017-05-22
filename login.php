@@ -15,11 +15,10 @@ if ($_POST['submit'] == 'OK')
 			header('Location: index.php');
 		}
 		else
-			header('Location: info.php?page=notactive');
+			header('Location: index.php?p=info&i=notactive');
 	}
 }
 
-require('vue/head.php');
-require('vue/login.php');
+require('page/login.php');
 
 ?>

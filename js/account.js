@@ -10,7 +10,7 @@ function modifPs() {
  cleanPage();
  var form = document.createElement("form");
  form.method = "post";
- form.action = '.?page=account';
+ form.action = '.?p=account';
  var newps = document.createElement("p");
  newps.innerText = "Nouveau pseudo";
  form.appendChild(newps);
@@ -43,7 +43,7 @@ function modifPw() {
  cleanPage();
  var form = document.createElement("form");
  form.method = "post";
- form.action = '.?page=account';
+ form.action = '.?p=account';
  var oldpw = document.createElement("p");
  oldpw.innerText = "Mot de passe actuel";
  form.appendChild(oldpw);
@@ -86,7 +86,7 @@ function modifMail() {
  cleanPage();
  var form = document.createElement("form");
  form.method = "post";
- form.action = '.?page=account';
+ form.action = '.?p=account';
  var newmail = document.createElement("p");
  newmail.innerText = "Nouvelle adresse email";
  form.appendChild(newmail);
