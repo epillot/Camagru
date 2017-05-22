@@ -7,7 +7,7 @@ function sendEmail($ps, $mail, $key) {
   $header .= "MIME-Version: 1.0\r\n";
   $header .= "Content-Type: multipart/alternative;\r\n" . " boundary=\"$b\"\r\n";
 
-  $url = "http://localhost:8080/camagru/index.php?page=act&log=" . urlencode($ps) . "&key=" . urlencode($key);
+  $url = "http://localhost:8080/camagru/index.php?p=activation&log=" . urlencode($ps) . "&key=" . urlencode($key);
 
   $subject = "Activation de votre compte";
 

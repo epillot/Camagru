@@ -1,7 +1,7 @@
 <?php
 
 try {
-	$db = new PDO('mysql:host=localhost:8889', 'root', 'root');
+	$db = new PDO('mysql:host=localhost', 'root', 'root');
 	$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 }
 catch (PDOException $e) {
@@ -32,8 +32,8 @@ $q = "CREATE TABLE IF NOT EXISTS user(
 $db->exec($q);
 
 $q = "CREATE TABLE IF NOT EXISTS photo(
-	id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	id_user INT NOT NULL,
+	id INT NOT NULL,
+	user VARCHAR(20) NOT NULL,
 	date_ajout DATETIME NOT NULL);";
 $db->exec($q);
 

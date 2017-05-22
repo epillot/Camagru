@@ -76,22 +76,34 @@ Class Data {
 		$req->execute(array($mail, $ps));
 	}
 
-	public function addPhoto($id_user, $date) {
-		$req = $this->db->prepare('INSERT INTO photo(id_user, date_ajout) VALUES(?, ?)');
-		$req->execute(array($id_user, $date));
+	public function addPhoto($user, $date) {
+		$info = $this->getUserInfo($user);
+		$req = $this->db->prepare('INSERT INTO photo(id, user, date_ajout) VALUES(?, ?, ?)');
+		$req->execute(array($info['nb_photo'], $user, $date));
 
-		$req = $this->db->prepare('UPDATE user SET nb_photo = nb_photo + 1 WHERE id = ?');
-		$req->execute(array($id_user));
+		$req = $this->db->prepare('UPDATE user SET nb_photo = nb_photo + 1 WHERE login = ?');
+		$req->execute(array($user));
 	}
 
-	// public function getPreviewPhoto($id_user) {
-	// 	$req = $this->db->prepare('SELECT id FROM photo WHERE id_user = ? ORDER BY date_ajout LIMIT 4');
-	// 	$req->execute(array($id_user));
-	// 	$ret = array();
-	// 	while ($photo = $req->fetch())
-	// 		$ret[] = $photo;
-	// 	return $ret;
-	// }
+	public function getNbPage() {
+		$req = $this->db->query('SELECT COUNT(*) AS total FROM photo');
+		$ret = $req->fetch();
+		$total = $ret['total'];
+		$req->closeCursor();
+		return (ceil($total / 9));
+	}
+
+	public function getGallery($p) {
+		$req = $this->db->prepare("SELECT id, user FROM photo ORDER BY date_ajout DESC LIMIT $p, 9");
+		$req->execute();
+		$ret = array();
+		while ($photo = $req->fetch())
+		{
+			$ret[] = array('id' => $photo['id'], 'user' => $photo['user']);
+		}
+		$req->closeCursor();
+		return $ret;
+	}
 
 }
 

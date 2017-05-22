@@ -9,12 +9,7 @@
 <div id="header">
 	<div id="home">
 		<a href="index.php"><img src="img/home.png" alt="home" title="home"></img></a>
-		<?php
-			if (isset($_SESSION['loggued_on_user']) && $Data->userExists($_SESSION['loggued_on_user']))
-			{
-				echo "<a href='index.php?p=gallery'><img src='img/gallery.png' title='gallerie' alt='gallerie'></img></a>";
-			}
-		?>
+		<a href='index.php?p=gallery'><img src='img/gallery.png' title='gallerie' alt='gallerie'></img></a>
 	</div>
 		<h1>Camagru</h1>
 	<div id="user_setting">

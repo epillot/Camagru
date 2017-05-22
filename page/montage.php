@@ -3,7 +3,7 @@
 	<button id="take" onclick='takePhoto();'>Prendre une photo</button>
 </div>
 <div class="container">
-	<canvas id="canvas" width="640" height="480"></canvas>
+	<canvas id="canvas" width="400" height="300"></canvas>
 	<button id="register" onclick="savePhoto();">Enregistrer</button>
 	<button>Charger une photo</button>
 </div>
