@@ -105,6 +105,17 @@ Class Data {
 		return $ret;
 	}
 
+	public function removePhoto($id, $user) {
+		$req = $this->db->prepare("SELECT uid FROM photo WHERE (id = :id AND user = :user)");
+		$req->execute(array('id' => $id, 'user' => $user));
+		$ret = $req->fetch();
+		$uid = $ret['uid'];
+		$req->closeCursor();
+		$req = $this->db->prepare("DELETE FROM photo WHERE uid = :uid");
+		$req->execute(array('uid' => $uid));
+		return ($uid);
+	}
+
 }
 
 ?>

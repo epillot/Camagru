@@ -5,7 +5,11 @@
 <div class="container">
 	<canvas id="canvas" width="400" height="300"></canvas>
 	<button id="register" onclick="savePhoto();">Enregistrer</button>
-	<button>Charger une photo</button>
+	<form method="post" action="#" enctype="multipart/form-data">
+		<label for="upload">Charger un fichier :</label>
+		<input type="file" name="upload" />
+		<input type="submit" name="submit" value="Envoyer" />
+	</form>
 </div>
 <div id="side">
 </div>

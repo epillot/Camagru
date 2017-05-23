@@ -48,7 +48,6 @@ function addPreview(src) {
 
 function savePhoto() {
   var src = canvas.toDataURL();
-  console.log(src);
   var url = encodeURIComponent(src.split(',')[1]);
   var xhr = new XMLHttpRequest();
   xhr.onreadystatechange = function() {

@@ -17,8 +17,9 @@ if ($nbPage)
   $photos = array();
   foreach ($phs as $ph)
   {
-    $file = 'private/' . $ph['user'] . '/' . $ph['id'] . '.png';
-    $photos[] = array('user' => $ph['user'], 'src' => base64_encode(file_get_contents($file)));
+    //$file = 'private/' . $ph['user'] . '/' . $ph['id'] . '.png';
+    $src = 'private/' . $ph['user'] . '/' . $ph['id'] . '.png';
+    $photos[] = array('user' => $ph['user'], 'src' => $src/*base64_encode(file_get_contents($file))*/);
   }
 }
 require('page/gallery.php')

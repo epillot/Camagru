@@ -14,8 +14,8 @@
     echo "</div>";
     foreach ($photos as $photo)
     {
-      $src = 'data:image/png;base64,';
-      $src .= $photo['src'];
+      //$src = 'data:image/png;base64,';
+      $src = $photo['src'];
 
       echo "<div class='gallery'>";
       echo "<img src=$src></img>";
@@ -23,12 +23,12 @@
       {
         $usr = 'vous';
         echo "<div class='delete'>";
-        echo "<img src='img/delete.ico' onclick='delete();' alt='supprimer' title='supprimer'></img>";
+        echo "<img src='img/delete.ico' onclick='deletePhoto(this);' alt='supprimer' title='supprimer'></img>";
         echo "</div>";
       }
       else
         $usr = $photo['user'];
-      echo "<p align='center'>Ajouté par ";
+      echo "<p align='center' style='margin: 0'>Ajouté par ";
       echo $usr;
       echo "</p>";
       echo "</div>";

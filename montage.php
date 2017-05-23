@@ -3,6 +3,12 @@
 $user = $_SESSION['loggued_on_user'];
 $folder = 'private/' . $user;
 $info = $Data->getUserInfo($user);
+$uploaded = false;
+
+if ($_POST['submit'] == "Envoyer")
+{
+  $uploaded = true;
+}
 
 if (isset($_POST['photo']))
 {
@@ -15,7 +21,6 @@ if (isset($_POST['photo']))
   $file = $folder . '/' . $idph;
   $file .= '.png';
   file_put_contents($file, base64_decode($_POST['photo']));
-
 }
 
 require('page/montage.php');
