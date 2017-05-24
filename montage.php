@@ -7,7 +7,12 @@ $uploaded = false;
 
 if ($_POST['submit'] == "Envoyer")
 {
-  $uploaded = true;
+  require('modele/upload_file.php');
+  $ret = upload_file();
+  if (!$ret['success'])
+    $err = $ret['error'];
+  else
+    $uploaded = true;
 }
 
 if (isset($_POST['photo']))

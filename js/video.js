@@ -1,10 +1,13 @@
 var streaming = false;
 var video = document.getElementById('video');
+var img_up = document.getElementById('upload');
 var canvas = document.getElementById('canvas');
 var save_button = document.getElementById('register');
 var take_button = document.getElementById('take');
+var pikachu = document.getElementById('pikachu');
 var width = 400;
 var height = 0;
+if (video){
 navigator.getMedia = ( navigator.getUserMedia ||
                        navigator.webkitGetUserMedia ||
                        navigator.mozGetUserMedia ||
@@ -29,9 +32,45 @@ video.addEventListener('canplay', function(ev){
     streaming = true;
   }
 }, false);
+}
+
+function selectImg(img) {
+  if (!img.style.border || img.style.border == 'none')
+    img.style.border = '1px solid red';
+  else
+    img.style.border = 'none';
+}
+
+function applyFilter(photo, filter) {
+  console.log(photo);
+  console.log(filter);
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState == 4 && xhr.status == 200)
+    {
+      console.log(xhr.responseText);
+      return xhr.responseText;
+    }
+  };
+  xhr.open('POST', 'ajax_montage.php', true);
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xhr.send('photo=' + photo + 'filter=' + filter);
+}
 
 function takePhoto() {
-  canvas.getContext('2d').drawImage(video, 0, 0, width, height);
+  var src;
+  var img;
+  if (video)
+    src = video.value;
+  else
+  {
+    width = img_up.width;
+    height = img_up.height;
+    src = img_up.src;
+  }
+  img = new Image();
+  img.src = applyFilter(src, pikachu.src);
+  canvas.getContext('2d').drawImage(img, 0, 0, width, height);
   save_button.style.visibility = "visible";
 }
 
