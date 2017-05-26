@@ -3,16 +3,21 @@
 session_start();
 require('modele/Data.Class.php');
 $Data = new Data;
+$user = $_SESSION['loggued_on_user'];
 
-if (isset($_POST['delete']))
+if (isset($_POST['delete']) && isset($_POST['uidph']))
 {
   $photo = basename($_POST['delete']);
-  $id = explode(".", $photo)[0];
-  $user = $_SESSION['loggued_on_user'];
   $file = 'private/' . $user . '/' . $photo;
   unlink($file);
-  $uid = $Data->removePhoto($id, $user);
-  echo $uid;
+  $uid = $Data->removePhoto($_POST['uidph']);
+}
+
+if (isset($_POST['like_action']) && isset($_POST['uidph']))
+{
+  $action = $_POST['like_action'];
+  $uidph = $_POST['uidph'];
+  $Data->updateLike($action, $uidph, $user);
 }
 
 ?>

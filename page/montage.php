@@ -26,7 +26,7 @@
 </div>
 <div id="side">
 </div>
-<div id="imgadd">
+<div id="imgadd" style="display: none">
 	<img id="pikachu" src='img/pikachu.png' alt='pikachu' title='pikachu' onclick="selectImg(this);"></img>
 </div>
 <script type="text/javascript" src="js/video.js"></script>

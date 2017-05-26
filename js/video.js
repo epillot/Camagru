@@ -42,36 +42,42 @@ function selectImg(img) {
 }
 
 function applyFilter(photo, filter) {
-  console.log(photo);
-  console.log(filter);
+  // console.log(photo);
+  // console.log(filter);
   var xhr = new XMLHttpRequest();
   xhr.onreadystatechange = function() {
     if (xhr.readyState == 4 && xhr.status == 200)
     {
-      console.log(xhr.responseText);
-      return xhr.responseText;
+      //console.log(xhr.responseText);
+      var img = new Image();
+      img.src = 'data:image/png;base64,' + xhr.responseText;
+      canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+      save_button.style.visibility = "visible";
+
     }
   };
   xhr.open('POST', 'ajax_montage.php', true);
   xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-  xhr.send('photo=' + photo + 'filter=' + filter);
+  xhr.send('photo=' + photo + '&filter=' + filter);
 }
 
 function takePhoto() {
   var src;
-  var img;
+  var filter = pikachu;
+  var tmpcanvas = document.createElement('canvas');
+  tmpcanvas.width = 400;
+  tmpcanvas.height = 300;
   if (video)
-    src = video.value;
+    src = video;
   else
   {
     width = img_up.width;
     height = img_up.height;
-    src = img_up.src;
+    src = img_up;
   }
-  img = new Image();
-  img.src = applyFilter(src, pikachu.src);
-  canvas.getContext('2d').drawImage(img, 0, 0, width, height);
-  save_button.style.visibility = "visible";
+  tmpcanvas.getContext('2d').drawImage(src, 0, 0, width, height);
+  var dst = encodeURIComponent(tmpcanvas.toDataURL().split(',')[1]);
+  applyFilter(dst, pikachu.src);
 }
 
 function addPreview(src) {

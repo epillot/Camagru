@@ -13,13 +13,14 @@ if ($nbPage)
     else if ($p < 1)
     $p = 1;
   }
-  $phs = $Data->getGallery(($p - 1) * 9);
+  $user = $_SESSION['loggued_on_user'];
+  $phs = $Data->getGallery(($p - 1) * 6, $user);
   $photos = array();
   foreach ($phs as $ph)
   {
     //$file = 'private/' . $ph['user'] . '/' . $ph['id'] . '.png';
     $src = 'private/' . $ph['user'] . '/' . $ph['id'] . '.png';
-    $photos[] = array('user' => $ph['user'], 'src' => $src/*base64_encode(file_get_contents($file))*/);
+    $photos[] = array('uid' => $ph['uid'], 'user' => $ph['user'], 'src' => $src, 'nb_like' => $ph['nb_like'], 'liked' => $ph['liked'], 'nb_com' => $ph['nb_com']);
   }
 }
 require('page/gallery.php')

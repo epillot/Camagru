@@ -35,6 +35,14 @@ Class Data {
 		return $ret;
 	}
 
+	public function getPhoto($uid) {
+		$req = $this->db->prepare('SELECT id, nb_com FROM photo WHERE uid = :uid');
+		$req->execute(array('uid' => $uid));
+		$ret = $req->fetch();
+		$req->closeCursor();
+		return $ret;
+	}
+
 	public function getUserInfo($ps) {
 		$req = $this->db->prepare('SELECT id, email, date_de_creation, activation_key, activated, nb_photo FROM user WHERE login = ?');
 		$req->execute(array($ps));
@@ -90,30 +98,68 @@ Class Data {
 		$ret = $req->fetch();
 		$total = $ret['total'];
 		$req->closeCursor();
-		return (ceil($total / 9));
+		return (ceil($total / 6));
 	}
 
-	public function getGallery($p) {
-		$req = $this->db->prepare("SELECT id, user FROM photo ORDER BY date_ajout DESC LIMIT $p, 9");
+	public function isLiked($uidph, $user) {
+		$ret = false;
+		$req = $this->db->prepare('SELECT id FROM photo_like WHERE user = :user AND uid_photo = :uidph');
+		$req->execute(array('user' => $user, 'uidph' => $uidph));
+		if ($req->fetch() !== false)
+			$ret = true;
+		$req->closeCursor();
+		return $ret;
+	}
+
+	public function getGallery($p, $user) {
+		$req = $this->db->prepare("SELECT uid, id, user, nb_like, nb_com FROM photo ORDER BY date_ajout DESC LIMIT $p, 6");
 		$req->execute();
 		$ret = array();
 		while ($photo = $req->fetch())
 		{
-			$ret[] = array('id' => $photo['id'], 'user' => $photo['user']);
+			$like = false;
+			if ($this->isLiked($photo['uid'], $user))
+				$like = true;
+			$ret[] = array('uid' => $photo['uid'], 'id' => $photo['id'], 'user' => $photo['user'], 'nb_like' => $photo['nb_like'], 'liked' => $like, 'nb_com' => $photo['nb_com']);
 		}
 		$req->closeCursor();
 		return $ret;
 	}
 
-	public function removePhoto($id, $user) {
-		$req = $this->db->prepare("SELECT uid FROM photo WHERE (id = :id AND user = :user)");
-		$req->execute(array('id' => $id, 'user' => $user));
-		$ret = $req->fetch();
-		$uid = $ret['uid'];
-		$req->closeCursor();
+	public function removeLikes($uid) {
+		$req = $this->db->prepare("DELETE FROM photo_like WHERE uid_photo = :uidph");
+		$req->execute(array('uidph' => $uid));
+	}
+
+	public function removePhoto($uid) {
 		$req = $this->db->prepare("DELETE FROM photo WHERE uid = :uid");
 		$req->execute(array('uid' => $uid));
-		return ($uid);
+		$this->removeLikes($uid);
+	}
+
+	public function addLike($user, $uidph) {
+		$req = $this->db->prepare("INSERT INTO photo_like(user, uid_photo) VALUES(:user, :uidph)");
+		$req->execute(array('user' => $user, 'uidph' => $uidph));
+	}
+
+	public function removeLike($user, $uidph) {
+		$req = $this->db->prepare("DELETE FROM photo_like WHERE user = :user AND uid_photo = :uidph");
+		$req->execute(array('user' => $user, 'uidph' => $uidph));
+	}
+
+	public function updateLike($action, $uidph, $user) {
+		if ($action == 'like')
+		{
+			$i = 1;
+			$this->addLike($user, $uidph);
+		}
+		else if ($action == 'unlike')
+		{
+			$i = -1;
+			$this->removeLike($user, $uidph);
+		}
+		$req = $this->db->prepare("UPDATE photo SET nb_like = nb_like + :i WHERE uid = :uidph");
+		$req->execute(array('i' => $i, 'uidph' => $uidph));
 	}
 
 }

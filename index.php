@@ -16,6 +16,8 @@ else
 {
 	if (!isset($_GET['p']))
 		$_GET['p'] = 'accueil';
+	else if ($_GET['p'] == 'montage' || $_GET['p'] == 'account')
+		$_GET['p'] = 'page/forbidden';
 	if (!file_exists($_GET['p'] . '.php'))
 		$_GET['p'] = 'page/404';
 	require($_GET['p'] . '.php');

@@ -165,13 +165,30 @@ body{
 
 .gallery {
   position: relative;
-  width: 30%;
-  height: 30%;
+  width: 400px;
+  height: 400px;
 }
 
 .gallery img {
   width: 100%;
-  height: 90%;
+  height: 70%;
+}
+
+.photo_setting {
+  background-color: #fff;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.like {
+  height: 60%;
+  width: 10%;
+}
+
+.like img {
+  width: 100%;
+  height: 100%;
 }
 
 .delete {
