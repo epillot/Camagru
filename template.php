@@ -27,7 +27,7 @@
 	</div>
 </div>
 <div class="page">
-  <?= $page ?>
+<?= $page ?>
 </div>
 </body>
 </html>

@@ -36,7 +36,7 @@ Class Data {
 	}
 
 	public function getPhoto($uid) {
-		$req = $this->db->prepare('SELECT id, nb_com FROM photo WHERE uid = :uid');
+		$req = $this->db->prepare('SELECT id, user, nb_com FROM photo WHERE uid = :uid');
 		$req->execute(array('uid' => $uid));
 		$ret = $req->fetch();
 		$req->closeCursor();
@@ -160,6 +160,26 @@ Class Data {
 		}
 		$req = $this->db->prepare("UPDATE photo SET nb_like = nb_like + :i WHERE uid = :uidph");
 		$req->execute(array('i' => $i, 'uidph' => $uidph));
+	}
+
+	public function addComment($user, $uidph, $com) {
+		$req = $this->db->prepare('INSERT INTO comments(user, uid_photo, content) VALUES(:user, :uidph, :com)');
+		$req->execute(array('user' => $user, 'uidph' => $uidph, 'com' => $com));
+
+		$req = $this->db->prepare('UPDATE photo SET nb_com = nb_com + 1 WHERE uid = :uidph');
+		$req->execute(array('uidph' => $uidph));
+	}
+
+	public function getComments($uidph) {
+		$ret = array();
+		$req = $this->db->prepare('SELECT user, content FROM comments WHERE uid_photo = :uidph ORDER BY id DESC');
+		$req->execute(array('uidph' => $uidph));
+		while ($comment = $req->fetch())
+		{
+			$ret[] = array('user' => $comment['user'], 'content' => $comment['content']);
+		}
+		$req->closeCursor();
+		return $ret;
 	}
 
 }

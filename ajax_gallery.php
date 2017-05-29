@@ -10,7 +10,7 @@ if (isset($_POST['delete']) && isset($_POST['uidph']))
   $photo = basename($_POST['delete']);
   $file = 'private/' . $user . '/' . $photo;
   unlink($file);
-  $uid = $Data->removePhoto($_POST['uidph']);
+  $Data->removePhoto($_POST['uidph']);
 }
 
 if (isset($_POST['like_action']) && isset($_POST['uidph']))
