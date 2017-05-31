@@ -7,6 +7,9 @@ var take_button = document.getElementById('take');
 var pikachu = document.getElementById('pikachu');
 var width = 400;
 var height = 0;
+var selected = false;
+var allimg = document.getElementById('imgadd');
+
 if (video){
 navigator.getMedia = ( navigator.getUserMedia ||
                        navigator.webkitGetUserMedia ||
@@ -35,10 +38,19 @@ video.addEventListener('canplay', function(ev){
 }
 
 function selectImg(img) {
-  if (!img.style.border || img.style.border == 'none')
-    img.style.border = '1px solid red';
-  else
-    img.style.border = 'none';
+  for (var i = 0; i < allimg.children.length; i++)
+     allimg.children[i].style.backgroundColor = '#fff';
+  img.style.backgroundColor = '#D0F5A9';
+  selected = true;
+}
+
+function getFilter() {
+  for (var i = 0; i < allimg.children.length; i++)
+  {
+    if (allimg.children[i].style.backgroundColor == "rgb(208, 245, 169)"){
+      break; }
+  }
+  return i == 3 ? 2 : i;
 }
 
 function applyFilter(photo, filter) {
@@ -50,10 +62,11 @@ function applyFilter(photo, filter) {
     {
       //console.log(xhr.responseText);
       var img = new Image();
+      img.onload = function() {
+        canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+        save_button.style.visibility = "visible";
+      };
       img.src = 'data:image/png;base64,' + xhr.responseText;
-      canvas.getContext('2d').drawImage(img, 0, 0, width, height);
-      save_button.style.visibility = "visible";
-
     }
   };
   xhr.open('POST', 'ajax_montage.php', true);
@@ -63,7 +76,9 @@ function applyFilter(photo, filter) {
 
 function takePhoto() {
   var src;
-  var filter = pikachu;
+  if (selected) {
+  var filter = getFilter();
+  console.log(filter);
   var tmpcanvas = document.createElement('canvas');
   tmpcanvas.width = 400;
   tmpcanvas.height = 300;
@@ -78,6 +93,10 @@ function takePhoto() {
   tmpcanvas.getContext('2d').drawImage(src, 0, 0, width, height);
   var dst = encodeURIComponent(tmpcanvas.toDataURL().split(',')[1]);
   applyFilter(dst, pikachu.src);
+  }
+  else {
+    alert('veillez selectionner une image à superposer');
+  }
 }
 
 function addPreview(src) {
@@ -86,8 +105,8 @@ function addPreview(src) {
   img.src = src;
   img.className = 'preview';
   img.alt = 'photo';
-  if (side.children.length == 4)
-    side.removeChild(side.children[3]);
+  if (side.children.length == 3)
+    side.removeChild(side.children[2]);
   side.insertBefore(img, side.children[0]);
 }
 

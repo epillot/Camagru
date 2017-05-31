@@ -5,7 +5,7 @@
       <h3>Pseudo</h3>
       <button onclick="modifPs();">modifier</button>
     </div>
-      <p><?= $_SESSION['loggued_on_user']; ?></p>
+      <p><?= htmlentities($_SESSION['loggued_on_user']); ?></p>
   </div>
   <div class="section">
     <div class="account_title">
@@ -19,7 +19,7 @@
       <h3>Adresse email</h3>
       <button onclick="modifMail();">modifier</button>
     </div>
-    <p><?= $info['email']; ?></p>
+    <p><?= htmlentities($info['email']); ?></p>
   </div>
   <br />
   <p>Membre depuis le <?= $info['date_de_creation']; ?></p>

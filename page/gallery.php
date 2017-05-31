@@ -1,3 +1,4 @@
+<div id="gallery_page">
 <?php
 
   if ($nbPage)
@@ -31,7 +32,7 @@
         $usr = $photo['user'];
       echo "<div class='photo_setting' style='padding: 5px 10px'>";
       echo "<p style='margin: 0'>Ajouté par ";
-      echo $usr;
+      echo htmlentities($usr);
       echo "</p>";
       echo "<p style='margin: 0'>aimée $nb_like fois</p>";
       if (isset($_SESSION['loggued_on_user']) && $Data->userExists($_SESSION['loggued_on_user']))
@@ -52,4 +53,5 @@
     echo "<p>La gallerie est vide...</p>"
 
 ?>
+</div>
 <script type="text/javascript" src="js/gallery.js"></script>

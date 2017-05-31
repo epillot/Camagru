@@ -1,0 +1,22 @@
+#err {
+  color: red;
+}
+
+#compte_info {
+  text-align: center;
+  border: 1px solid black;
+  padding: 10px;
+}
+
+.account_title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.account_title h3 {
+  padding: 5px;
+}
+.account_title button {
+  height: 30%;
+}

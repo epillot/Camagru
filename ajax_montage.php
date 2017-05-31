@@ -3,6 +3,13 @@
 if (isset($_POST['photo']) && isset($_POST['filter']))
 {
   $photo = imagecreatefromstring(base64_decode($_POST['photo']));
+  $filter = $_POST['filter'];
+  if ($filter == 0)
+  {
+    $filter = imagecreatefrompng('img/pikachu.png');
+    $x = imagesx($filter);
+    $y = imagesy($filter);
+  }
   $filter = imagecreatefrompng('img/' . basename($_POST['filter']));
   //$filter_resize = imagecreatetruecolor(200, 150);
   //$b = imagecolorallocate($filter_resize, 0, 0, 0);

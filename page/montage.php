@@ -1,5 +1,6 @@
+<h3 align='center'>Selectionnez une image a superposer pour prendre une photo</h3>
+<div id="montage_page">
 <div class="container">
-	<p>Selectionnez une image a superposer pour prendre une photo</p>
 	<?php
 	if (!$uploaded)
 		echo "<video poster='img/unavailable.png' id='video' width='400' height='300' autoplay></video>";
@@ -26,7 +27,10 @@
 </div>
 <div id="side">
 </div>
-<div id="imgadd" style="display: none">
+<div id="imgadd">
 	<img id="pikachu" src='img/pikachu.png' alt='pikachu' title='pikachu' onclick="selectImg(this);"></img>
+	<img id="biere" src='img/biere.png' alt='biere' title='biere' onclick="selectImg(this);"></img>
+	<img id="soleil" src='img/soleil.png' alt='soleil' title='soleil' onclick="selectImg(this);"></img>
+</div>
 </div>
 <script type="text/javascript" src="js/video.js"></script>

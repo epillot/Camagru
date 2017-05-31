@@ -17,10 +17,10 @@
       {
         foreach ($comments as $comment)
         {
-          $autor = $comment['user'];
+          $autor = htmlentities($comment['user']);
           if ($user == $autor)
             $autor = 'vous';
-          $content = $comment['content'];
+          $content = htmlentities($comment['content']);
           echo "<p>$autor: $content</p>";
         }
       }

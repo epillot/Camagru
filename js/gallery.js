@@ -2,8 +2,6 @@ function deletePhoto(a) {
     var photo = a.parentNode.parentNode;
     var src = photo.children[0].src;
     var uidph = photo.children[0].id;
-    console.log(photo);
-    console.log(uidph);
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
       if (xhr.readyState == 4 && xhr.status == 200)

@@ -1,0 +1,47 @@
+#gallery_page {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.gallery {
+  position: relative;
+  width: 400px;
+  height: 400px;
+}
+
+.gallery img {
+  width: 100%;
+  height: 70%;
+}
+
+.photo_setting {
+  background-color: #fff;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.like {
+  height: 60%;
+  width: 10%;
+}
+
+.like img {
+  width: 100%;
+  height: 100%;
+}
+
+.delete {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 10%;
+  height: 10%;
+}
+
+#link {
+  position: absolute;
+  bottom: 0;
+}

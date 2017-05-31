@@ -7,7 +7,7 @@ if (isset($_POST['uidph']) && isset($_POST['comment']))
   $Data = new Data;
   $uidph = $_POST['uidph'];
   $user = $_SESSION['loggued_on_user'];
-  $com = htmlentities($_POST['comment']);
+  $com = $_POST['comment'];
   $Data->addComment($user, $uidph, $com);
   echo "ok";
 }

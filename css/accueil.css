@@ -1,0 +1,18 @@
+#accueil_page {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+#login, #create{
+  background-color: #F5F6CE;
+  margin: 10px;
+  padding: 10px;
+  border: 2px solid black;
+}
+
+#err {
+  color: red;
+}

@@ -1,0 +1,25 @@
+#comment_page {
+  display: flex;
+  flex-direction: column;
+  justify-content:
+}
+
+#comment {
+  background-color: #E6E6E6;
+  padding: 10px;
+}
+
+#write_com {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#send_com {
+  width: 30px;
+}
+
+#com_content {
+  word-wrap: break-word;
+  width: 400px;
+}
