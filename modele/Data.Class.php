@@ -36,7 +36,7 @@ Class Data {
 	}
 
 	public function getPhoto($uid) {
-		$req = $this->db->prepare('SELECT id, user, nb_com FROM photo WHERE uid = :uid');
+		$req = $this->db->prepare('SELECT id, id_user, nb_com FROM photo WHERE uid = :uid');
 		$req->execute(array('uid' => $uid));
 		$ret = $req->fetch();
 		$req->closeCursor();
@@ -69,6 +69,22 @@ Class Data {
 		return $ret;
 	}
 
+	public function getUserById($id) {
+		$req = $this->db->prepare('SELECT login FROM user WHERE id = :id');
+		$req->execute(array('id' => $id));
+		$ret = $req->fetch();
+		$req->closeCursor();
+		return $ret;
+	}
+
+	public function getUserByMail($mail) {
+		$req = $this->db->prepare('SELECT login FROM user WHERE email = :mail');
+		$req->execute(array('mail' => $mail));
+		$ret = $req->fetch();
+		$req->closeCursor();
+		return $ret;
+	}
+
 	public function updatePs($ps, $newps) {
 		$req = $this->db->prepare('UPDATE user SET login = ? WHERE login = ?');
 		$req->execute(array($newps, $ps));
@@ -86,8 +102,8 @@ Class Data {
 
 	public function addPhoto($user, $date) {
 		$info = $this->getUserInfo($user);
-		$req = $this->db->prepare('INSERT INTO photo(id, user, date_ajout) VALUES(?, ?, ?)');
-		$req->execute(array($info['nb_photo'], $user, $date));
+		$req = $this->db->prepare('INSERT INTO photo(id, id_user, date_ajout) VALUES(?, ?, ?)');
+		$req->execute(array($info['nb_photo'], $info['id'], $date));
 
 		$req = $this->db->prepare('UPDATE user SET nb_photo = nb_photo + 1 WHERE login = ?');
 		$req->execute(array($user));
@@ -102,9 +118,10 @@ Class Data {
 	}
 
 	public function isLiked($uidph, $user) {
+		$info = $this->getUserInfo($user);
 		$ret = false;
-		$req = $this->db->prepare('SELECT id FROM photo_like WHERE user = :user AND uid_photo = :uidph');
-		$req->execute(array('user' => $user, 'uidph' => $uidph));
+		$req = $this->db->prepare('SELECT id FROM photo_like WHERE id_user = :user AND uid_photo = :uidph');
+		$req->execute(array('user' => $info['id'], 'uidph' => $uidph));
 		if ($req->fetch() !== false)
 			$ret = true;
 		$req->closeCursor();
@@ -112,7 +129,7 @@ Class Data {
 	}
 
 	public function getGallery($p, $user) {
-		$req = $this->db->prepare("SELECT uid, id, user, nb_like, nb_com FROM photo ORDER BY date_ajout DESC LIMIT $p, 6");
+		$req = $this->db->prepare("SELECT uid, id, id_user, nb_like, nb_com FROM photo ORDER BY date_ajout DESC LIMIT $p, 6");
 		$req->execute();
 		$ret = array();
 		while ($photo = $req->fetch())
@@ -120,7 +137,7 @@ Class Data {
 			$like = false;
 			if ($this->isLiked($photo['uid'], $user))
 				$like = true;
-			$ret[] = array('uid' => $photo['uid'], 'id' => $photo['id'], 'user' => $photo['user'], 'nb_like' => $photo['nb_like'], 'liked' => $like, 'nb_com' => $photo['nb_com']);
+			$ret[] = array('uid' => $photo['uid'], 'id' => $photo['id'], 'user' => $photo['id_user'], 'nb_like' => $photo['nb_like'], 'liked' => $like, 'nb_com' => $photo['nb_com']);
 		}
 		$req->closeCursor();
 		return $ret;
@@ -131,20 +148,28 @@ Class Data {
 		$req->execute(array('uidph' => $uid));
 	}
 
+	public function removeComments($uid) {
+		$req = $this->db->prepare("DELETE FROM comments WHERE uid_photo = :uidph");
+		$req->execute(array('uidph' => $uid));
+	}
+
 	public function removePhoto($uid) {
 		$req = $this->db->prepare("DELETE FROM photo WHERE uid = :uid");
 		$req->execute(array('uid' => $uid));
 		$this->removeLikes($uid);
+		$this->removeComments($uid);
 	}
 
 	public function addLike($user, $uidph) {
-		$req = $this->db->prepare("INSERT INTO photo_like(user, uid_photo) VALUES(:user, :uidph)");
-		$req->execute(array('user' => $user, 'uidph' => $uidph));
+		$info = $this->getUserInfo($user);
+		$req = $this->db->prepare("INSERT INTO photo_like(id_user, uid_photo) VALUES(:user, :uidph)");
+		$req->execute(array('user' => $info['id'], 'uidph' => $uidph));
 	}
 
 	public function removeLike($user, $uidph) {
-		$req = $this->db->prepare("DELETE FROM photo_like WHERE user = :user AND uid_photo = :uidph");
-		$req->execute(array('user' => $user, 'uidph' => $uidph));
+		$info = $this->getUserInfo($user);
+		$req = $this->db->prepare("DELETE FROM photo_like WHERE id_user = :user AND uid_photo = :uidph");
+		$req->execute(array('user' => $info['id'], 'uidph' => $uidph));
 	}
 
 	public function updateLike($action, $uidph, $user) {
@@ -163,8 +188,9 @@ Class Data {
 	}
 
 	public function addComment($user, $uidph, $com) {
-		$req = $this->db->prepare('INSERT INTO comments(user, uid_photo, content) VALUES(:user, :uidph, :com)');
-		$req->execute(array('user' => $user, 'uidph' => $uidph, 'com' => $com));
+		$info = $this->getUserInfo($user);
+		$req = $this->db->prepare('INSERT INTO comments(id_user, uid_photo, content) VALUES(:user, :uidph, :com)');
+		$req->execute(array('user' => $info['id'], 'uidph' => $uidph, 'com' => $com));
 
 		$req = $this->db->prepare('UPDATE photo SET nb_com = nb_com + 1 WHERE uid = :uidph');
 		$req->execute(array('uidph' => $uidph));
@@ -172,16 +198,24 @@ Class Data {
 
 	public function getComments($uidph) {
 		$ret = array();
-		$req = $this->db->prepare('SELECT user, content FROM comments WHERE uid_photo = :uidph ORDER BY id DESC');
+		$req = $this->db->prepare('SELECT id_user, content FROM comments WHERE uid_photo = :uidph ORDER BY id DESC');
 		$req->execute(array('uidph' => $uidph));
 		while ($comment = $req->fetch())
 		{
-			$ret[] = array('user' => $comment['user'], 'content' => $comment['content']);
+			$ret[] = array('user' => $comment['id_user'], 'content' => $comment['content']);
 		}
 		$req->closeCursor();
 		return $ret;
 	}
 
+	public function getPhotoAutor($uidph) {
+		$req = $this->db->prepare('SELECT id_user FROM photo WHERE uid = :uidph');
+		$req->execute(array('uidph' => $uidph));
+		$ret = $req->fetch();
+		$req->closeCursor();
+		$autor = $this->getUserById($ret['id_user']);
+		return $autor['login'];
+	}
 }
 
 ?>

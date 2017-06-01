@@ -17,11 +17,11 @@
       {
         foreach ($comments as $comment)
         {
-          $autor = htmlentities($comment['user']);
+          $autor = htmlentities($Data->getUserById($comment['user'])['login']);
           if ($user == $autor)
             $autor = 'vous';
           $content = htmlentities($comment['content']);
-          echo "<p>$autor: $content</p>";
+          echo "<p><b>$autor</b>: $content</p>";
         }
       }
       else

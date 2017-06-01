@@ -2,23 +2,21 @@
 
 if (isset($_POST['photo']) && isset($_POST['filter']))
 {
+  $dsty = 150;
   $photo = imagecreatefromstring(base64_decode($_POST['photo']));
   $filter = $_POST['filter'];
   if ($filter == 0)
-  {
     $filter = imagecreatefrompng('img/pikachu.png');
-    $x = imagesx($filter);
-    $y = imagesy($filter);
+  else if ($filter == 1)
+    $filter = imagecreatefrompng('img/biere.png');
+  else
+  {
+    $filter = imagecreatefrompng('img/soleil.png');
+    $dsty = 0;
   }
-  $filter = imagecreatefrompng('img/' . basename($_POST['filter']));
-  //$filter_resize = imagecreatetruecolor(200, 150);
-  //$b = imagecolorallocate($filter_resize, 0, 0, 0);
-  //imagecolortransparent($filter, 255);
   $x = imagesx($filter);
   $y = imagesy($filter);
-  //imagecopyresampled($filter_resize, $filter, 0, 0, 0, 0, 200, 150, $x, $y);
-  imagecopy($photo, $filter, 0, 150, 0, 0, $x, $y);
-  //imagedestroy($filter);
+  imagecopy($photo, $filter, 0, $dsty, 0, 0, $x, $y);
   ob_start();
   imagepng($photo);
   $ret = ob_get_contents();

@@ -1,3 +1,4 @@
+<div id="account_page">
 <div id="compte_info">
   <h2>Mon compte</h2>
   <div class="section">
@@ -25,4 +26,5 @@
   <p>Membre depuis le <?= $info['date_de_creation']; ?></p>
 </div>
 <?php if (isset($ret)) {echo "<div>$ret</div>";}?>
+</div>
 <script type="text/javascript" src="js/account.js"></script>

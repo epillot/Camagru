@@ -8,6 +8,7 @@
     <p>Mot de passe</p>
     <input type="password" name="log_pw" minlength="6" required="required"/>
     <p><input type="submit" name="log" value="OK"/></p>
+    <a id="forgot" href='#' style="font-style: italic">Mot de passe oublié</a>
   </form>
   <?php if (isset($errlog)) {echo $errlog;} ?>
 </div>
@@ -27,6 +28,13 @@
     <p><input type="submit" value="OK" name="create"/></p>
   </form>
 </div>
+</div>
+<div id="forgot_div" style="display: none">
+<form id="forgot_form"  method="post">
+  <p>Adresse email</p>
+  <input id="mail" class='input' type="email" name="mail_reset_pw" maxlength="320" required="required"/>
+  <p><input type="submit" value="OK"/></p>
+</form>
 </div>
 </div>
 <script type="text/javascript" src="js/accueil.js"></script>

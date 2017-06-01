@@ -3,16 +3,6 @@
 
   if ($nbPage)
   {
-    echo "<div id='link' align='center'>";
-    for ($i = 1; $i <= $nbPage; $i++)
-    {
-      if ($i == $p)
-        echo "[ $i ]";
-      else
-        echo "<a href='index.php?p=gallery&page=$i'>Page $i</a>";
-      echo " ";
-    }
-    echo "</div>";
     foreach ($photos as $photo)
     {
       $src = $photo['src'];
@@ -52,6 +42,24 @@
   else
     echo "<p>La gallerie est vide...</p>"
 
+
 ?>
 </div>
+<?php
+
+  if ($nbPage)
+  {
+    echo "<div id='link' align='center'>";
+    for ($i = 1; $i <= $nbPage; $i++)
+    {
+      if ($i == $p)
+        echo "[ $i ]";
+      else
+        echo "<a href='index.php?p=gallery&page=$i'>Page $i</a>";
+      echo " ";
+    }
+    echo "</div>";
+  }
+
+?>
 <script type="text/javascript" src="js/gallery.js"></script>

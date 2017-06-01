@@ -1,9 +1,10 @@
 <?php
 
+require('modele/Data.Class.php');
+$Data = new Data;
+
 if (isset($_POST['pseudo']) && isset($_POST['pw']) && isset($_POST['repw']) && isset($_POST['mail']))
 {
-  require('modele/Data.Class.php');
-  $Data = new Data;
 	date_default_timezone_set('Europe/Paris');
 	$ps = $_POST['pseudo'];
 	$pw = $_POST['pw'];
@@ -18,6 +19,8 @@ if (isset($_POST['pseudo']) && isset($_POST['pw']) && isset($_POST['repw']) && i
     echo json_encode(array('success' => false, 'err' => 'wg pw'));
 	else if ($Data->userExists($ps))
     echo json_encode(array('success' => false, 'err' => 'user exists'));
+  else if (strlen($mail) > 320 || !preg_match('/^[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}$/', $mail))
+    echo json_encode(array('success' => false, 'err' => 'invalid mail'));
 	else if ($Data->emailExists($mail))
     echo json_encode(array('success' => false, 'err' => 'mail exists'));
 	else
@@ -29,6 +32,22 @@ if (isset($_POST['pseudo']) && isset($_POST['pw']) && isset($_POST['repw']) && i
 		sendEmail($ps, $mail, $key);
 		echo json_encode(array('success' => true));
 	}
+}
+
+if (isset($_POST['mail_reset_pw']))
+{
+  $mail = $_POST['mail_reset_pw'];
+  if (!$Data->emailExists($mail))
+    echo json_encode(array('success' => false));
+  else
+  {
+    $user = $Data->getUserByMail($mail)['login'];
+    $newpw = substr(md5(rand()), 0, 8);
+    $Data->updatePw($user, hash('whirlpool', $newpw));
+    require('modele/resetPwMail.php');
+    resetPwMail($user, $mail, $newpw);
+    echo json_encode(array('success' => true));
+  }
 }
 
 ?>

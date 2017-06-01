@@ -1,4 +1,4 @@
-var page = document.getElementsByClassName('page')[0];
+var page = document.getElementById('account_page');
 
 function cleanPage() {
   var len = page.children.length;
@@ -9,6 +9,7 @@ function cleanPage() {
 function modifPs() {
  cleanPage();
  var form = document.createElement("form");
+ form.id = "account_form";
  form.method = "post";
  form.action = '.?p=account';
  var newps = document.createElement("p");
@@ -42,6 +43,7 @@ function modifPs() {
 function modifPw() {
  cleanPage();
  var form = document.createElement("form");
+ form.id = "account_form";
  form.method = "post";
  form.action = '.?p=account';
  var oldpw = document.createElement("p");
@@ -85,6 +87,7 @@ function modifPw() {
 function modifMail() {
  cleanPage();
  var form = document.createElement("form");
+ form.id = "account_form";
  form.method = "post";
  form.action = '.?p=account';
  var newmail = document.createElement("p");

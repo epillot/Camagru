@@ -1,3 +1,4 @@
+<div id="activation_page">
 <?php
   $ps = $_GET['log'];
   $key = $_GET['key'];
@@ -16,3 +17,4 @@
   }
 ?>
 <p><a href="index.php">Retour à l'accueil</a><p>
+</div>

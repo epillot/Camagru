@@ -19,8 +19,9 @@ if ($nbPage)
   foreach ($phs as $ph)
   {
     //$file = 'private/' . $ph['user'] . '/' . $ph['id'] . '.png';
-    $src = 'private/' . $ph['user'] . '/' . $ph['id'] . '.png';
-    $photos[] = array('uid' => $ph['uid'], 'user' => $ph['user'], 'src' => $src, 'nb_like' => $ph['nb_like'], 'liked' => $ph['liked'], 'nb_com' => $ph['nb_com']);
+    $login_autor = $Data->getUserById($ph['user'])['login'];
+    $src = 'private/' . $login_autor . '/' . $ph['id'] . '.png';
+    $photos[] = array('uid' => $ph['uid'], 'user' => $login_autor, 'src' => $src, 'nb_like' => $ph['nb_like'], 'liked' => $ph['liked'], 'nb_com' => $ph['nb_com']);
   }
 }
 require('page/gallery.php')

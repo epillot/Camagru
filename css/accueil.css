@@ -16,3 +16,7 @@
 #err {
   color: red;
 }
+
+#forgot_div {
+  flex-direction: column;
+}

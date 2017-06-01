@@ -26,6 +26,7 @@ function sendComment() {
     {
         addComment(comment);
         document.getElementById('write_com').children[1].value = "";
+        console.log(xhr.responseText);
     }
   };
   xhr.open('POST', 'ajax_comment.php', true);

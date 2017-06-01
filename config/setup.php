@@ -34,7 +34,7 @@ $db->exec($q);
 $q = "CREATE TABLE IF NOT EXISTS photo(
 	uid INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	id INT NOT NULL,
-	user VARCHAR(20) NOT NULL,
+	id_user INT NOT NULL,
 	date_ajout DATETIME NOT NULL,
 	nb_like INT NOT NULL DEFAULT 0,
 	nb_com INT NOT NULL DEFAULT 0);";
@@ -42,13 +42,13 @@ $db->exec($q);
 
 $q = "CREATE TABLE IF NOT EXISTS photo_like(
 	id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	user VARCHAR(20) NOT NULL,
+	id_user INT NOT NULL,
 	uid_photo INT NOT NULL);";
 $db->exec($q);
 
 $q = "CREATE TABLE IF NOT EXISTS comments(
 	id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	user VARCHAR(20) NOT NULL,
+	id_user INT NOT NULL,
 	uid_photo INT NOT NULL,
 	content VARCHAR(250) NOT NULL)";
 $db->exec($q);

@@ -92,7 +92,7 @@ function takePhoto() {
   }
   tmpcanvas.getContext('2d').drawImage(src, 0, 0, width, height);
   var dst = encodeURIComponent(tmpcanvas.toDataURL().split(',')[1]);
-  applyFilter(dst, pikachu.src);
+  applyFilter(dst, filter);
   }
   else {
     alert('veillez selectionner une image à superposer');
@@ -124,15 +124,4 @@ function savePhoto() {
   xhr.open('POST', '.', true);
   xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
   xhr.send('photo=' + url);
-  //console.log(url);
-  // var form = document.createElement('form');
-  // form.method = 'post';
-  // form.action = '.';
-  // var input = document.createElement('input');
-  // input.type = 'hidden';
-  // input.name = 'photo';
-  // input.value = url;
-  // form.appendChild(input);
-  // document.body.appendChild(form);
-  // form.submit();
 }

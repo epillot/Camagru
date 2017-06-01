@@ -1,8 +1,16 @@
+#account_page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 #err {
   color: red;
 }
 
 #compte_info {
+  background-color: #F5F6CE;
   text-align: center;
   border: 1px solid black;
   padding: 10px;
@@ -19,4 +27,11 @@
 }
 .account_title button {
   height: 30%;
+}
+
+#account_form {
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid black;
+  background-color: #F5F6CE;
 }

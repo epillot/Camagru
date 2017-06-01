@@ -3,7 +3,6 @@
 function sendEmail($ps, $mail, $key) {
   $b = "-----=" . md5(rand());
   $header = "From: \"Camagru\"<camagru@noreply.fr>\r\n";
-  //$header .= "Reply-to: \"Camagru\" <camagru@noreply.fr>\r\n";
   $header .= "MIME-Version: 1.0\r\n";
   $header .= "Content-Type: multipart/alternative;\r\n" . " boundary=\"$b\"\r\n";
 
