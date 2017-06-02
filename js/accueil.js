@@ -1,9 +1,11 @@
 var create_form = document.getElementById('create_form');
+var log_form = document.getElementById('log_form');
 var page = document.getElementById('accueil_page');
 var forgot = document.getElementById('forgot');
 
 function cleanPageAndForm() {
-  for (var i = 2; i < page.children.length; i++)
+  var len = page.children.length;
+  for (var i = 1; i < len; i++)
     page.removeChild(page.children[i]);
   var inputs = document.getElementsByClassName('input');
   for (var j = 0; j < inputs.length; j++)
@@ -20,27 +22,16 @@ create_form.onsubmit = function(ev) {
     if (xhr.readyState == 4 && xhr.status == 200)
     {
       cleanPageAndForm();
+      var p = document.createElement('p');
       var ret = JSON.parse(xhr.responseText);
-      var info = document.createElement('p');
       if (ret.success)
       {
-        var info = document.createElement('div');
-        var p1 = document.createElement('p');
-        var p2 = document.createElement('p');
-        var p3 = document.createElement('p');
-        p1.innerText = 'Votre compte a été créé avec succès !';
-        p2.innerText = 'Un email de confirmation vous a été envoyé.';
-        p3.innerText = 'Merci de suivre la procédure indiquée pour finaliser votre inscription.';
-        info.appendChild(p1);
-        info.appendChild(p2);
-        info.appendChild(p3);
-        page.appendChild(info);
+        p.innerText = 'Un email de confirmation vous a été envoyé pour finaliser votre inscription';
         for (var i = 1; i < create_form.children.length; i += 2)
           create_form.children[i].value = "";
       }
       else
       {
-        var p = document.createElement('p');
         p.id = 'err';
         if (ret.err == 'not same pw')
         {
@@ -73,10 +64,45 @@ create_form.onsubmit = function(ev) {
           p.innerText = 'Cette adresse email à déjà été utilisée.';
           document.getElementById('mail').style.border = '1px solid red';
         }
+      }
+      page.appendChild(p);
+    }
+  };
+  xhr.open('POST', 'ajax_accueil.php', true);
+  xhr.setRequestHeader('X-Requested-With', 'xmlhttprequest');
+  xhr.send(form);
+}
+
+log_form.onsubmit = function(ev) {
+  ev.preventDefault();
+  var xhr = new XMLHttpRequest();
+  var form = new FormData(log_form);
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState == 4 && xhr.status == 200)
+    {
+      var ret = JSON.parse(xhr.responseText);
+      if (ret.success)
+      {
+        document.location.href = '.';
+      }
+      else
+      {
+        if (page.children.length > 1)
+        {
+          var len = page.children.length;
+          for (var i = 1; i < len; i++)
+            page.removeChild(page.children[i]);
+        }
+        var p = document.createElement('p');
+        p.id = 'err';
+        if (ret.err == 'auth')
+          p.innerText = 'Pseudo ou mot de passe incorrect.';
+        else if (ret.err == 'not active')
+          p.innerText = 'Votre compte n\'a pas été activé.';
         page.appendChild(p);
       }
     }
-  };
+  }
   xhr.open('POST', 'ajax_accueil.php', true);
   xhr.setRequestHeader('X-Requested-With', 'xmlhttprequest');
   xhr.send(form);
@@ -90,11 +116,11 @@ forgot_form.onsubmit = function(ev) {
   ev.preventDefault();
   var xhr = new XMLHttpRequest();
   var form = new FormData(forgot_form);
-  if (forgot_form.children[3])
-    forgot_form.removeChild(forgot_form.children[3]);
   xhr.onreadystatechange = function() {
     if (xhr.readyState == 4 && xhr.status == 200)
     {
+      if (forgot_form.children[3])
+        forgot_form.removeChild(forgot_form.children[3]);
       var ret = JSON.parse(xhr.responseText);
       var p = document.createElement('p');
       if (ret.success)

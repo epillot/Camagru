@@ -34,6 +34,26 @@ if (isset($_POST['pseudo']) && isset($_POST['pw']) && isset($_POST['repw']) && i
 	}
 }
 
+if (isset($_POST['login']) && isset($_POST['log_pw']))
+{
+	$ps = $_POST['login'];
+	$pw = hash('whirlpool', $_POST['log_pw']);
+	if ($Data->auth($ps, $pw) === false)
+		echo json_encode(array('success' => false, 'err' => 'auth'));
+	else
+	{
+		$info = $Data->getUserInfo($ps);
+		if ($info['activated'] == 1)
+		{
+			session_start();
+			$_SESSION['loggued_on_user'] = $ps;
+			echo json_encode(array('success' => true));
+		}
+		else
+			echo json_encode(array('success' => false, 'err' => 'not active'));
+	}
+}
+
 if (isset($_POST['mail_reset_pw']))
 {
   $mail = $_POST['mail_reset_pw'];

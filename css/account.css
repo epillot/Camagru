@@ -5,6 +5,12 @@
   align-items: center;
 }
 
+#account_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 #err {
   color: red;
 }
@@ -29,7 +35,7 @@
   height: 30%;
 }
 
-#account_form {
+#log_form, #pw_form, #mail_form{
   margin: 10px;
   padding: 10px;
   border: 1px solid black;

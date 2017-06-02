@@ -31,5 +31,9 @@
 <div class="page">
 <?= $page ?>
 </div>
+<div class="footer">
+	<hr/>
+	<p>&copy; epillot 2016</p>
+</div>
 </body>
 </html>

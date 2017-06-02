@@ -1,5 +1,12 @@
 #accueil_page {
-  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+#container {
   display: flex;
   justify-content: center;
   align-items: center;
